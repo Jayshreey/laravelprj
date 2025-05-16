@@ -23,7 +23,7 @@
 <meta name="twitter:data1" content="43 minutes" />
 @endsection
 @section('content')
-<section class="page-header">
+<!-- <section class="page-header">
     <div class="page-header__bg" style="background-image: url({{ static_asset('assets/home/images/backgrounds/product-bg.jpg') }})">
     </div>
     <div class="shape1">
@@ -32,6 +32,30 @@
     <div class="container">
         <div class="page-header__inner">
             <h2>{{ $page_title }}</h2>
+        </div>
+    </div>
+</section> -->
+<section class="main-slider main-slider-three">
+    <div class="swiper-container thm-swiper__slider" data-swiper-options='{"slidesPerView": 1, "loop": true, "effect": "fade", "autoplay": { "delay": 5000 }}'>
+        <div class="swiper-wrapper">
+           
+                <div class="swiper-slide">
+                    <div class="image-layer" style="background-image:url({{ static_asset('assets/home/images/backgrounds/product-bg.jpg') }})"></div>
+                    <div class="shape1"><img src="{{ static_asset('assets/home/images/shapes/slider-v3-shape1.png') }}" alt="img"></div>
+                    <div class="container">
+                        <div class="main-slider-three__content">
+                            <div class="title">
+                                <h2>{{ $page_title }}</h2>
+                            </div>
+
+                            <div class="text">
+                                <p>BUY Grow Lights! Pricing starts from Rs. 400 to Rs. 1500</p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            
         </div>
     </div>
 </section>
@@ -60,40 +84,52 @@
 </section>
 @if(isset($category) && !empty($category))
 @foreach ($category as $key => $value)
-    @php 
-        $product = DB::table('product')->where('id','!=', '1')->where('category_id','=', $value->id)->where('is_active','=','1')->get()->toarray();
+    @php
+        $product = DB::table('product')->where('id','!=', '12')->where('category_id','=', $value->id)->where('is_active','=','1')->get()->toarray();
     @endphp
     @if(isset($product) && !empty($product))
-        <section class="team-two">
-            <div class="shape1 float-bob-y"><img src="{{ static_asset('assets/home/images/shapes/team-v2-shape1.png') }}" alt="product-img"></div>
-            <div class="shape2 float-bob-y"><img src="{{ static_asset('assets/home/images/shapes/team-v2-shape2.png') }}" alt="product-img"></div>
-            <div class="container">
-                <div class="sec-title-three text-center">
-                    <h2 class="sec-title-three__title">{{ $value->name }}</h2>
-                </div>
-                <div class="row">
-                    @foreach ($product as $pkey => $pvalue)
-                        <div class="col-xl-4 col-lg-6 col-md-6 wow fadeInLeft animated" data-wow-delay="0ms" data-wow-duration="1000ms" style="visibility: visible; animation-duration: 1000ms; animation-delay: 0ms; animation-name: fadeInLeft;">
-                            <div class="team-two__single">
-                                <div class="team-two__single-img">
-                                    <img src="{{ uploads_url($pvalue->image) }}" alt="{{ $pvalue->name }}">
-                                    <ul class="social-links clearfix">
-                                        <li class="share">
-                                            <a href="javascript:void(0);"><span class="icon-gardening-1"></span></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="team-two__single-content">
-                                    <h2><a href="javascript:void(0);">{{ $pvalue->name }}</a></h2>
-                                    <p class="text-black product-pr mb-2">{{ $pvalue->short_description }}</p>
-                                    <a href="javascript:void(0);" style="color: #ffffff;background-color: #2B8010;border-radius: 5px;padding: 8px 15px;text-decoration: none;"><b>View More</b></a>
-                                </div>
+    <section class="team-two">
+    <div class="shape1 float-bob-y">
+        <img src="{{ static_asset('assets/home/images/shapes/team-v2-shape1.png') }}" alt="product-img">
+    </div>
+    <div class="shape2 float-bob-y">
+        <img src="{{ static_asset('assets/home/images/shapes/team-v2-shape2.png') }}" alt="product-img">
+    </div>
+    <div class="container">
+        <div class="sec-title-three text-center">
+            <h2 class="sec-title-three__title">{{ $value->name }}</h2>
+        </div>
+        <div class="row">
+            @foreach ($product as $pkey => $pvalue)
+                <div class="col-xl-4 col-lg-6 col-md-6 d-flex">
+                    <div class="team-two__single flex-column d-flex w-100">
+                        <div class="team-two__single-img">
+                            <img src="{{ uploads_image($pvalue->image) }}" alt="{{ $pvalue->name }}">
+                            <ul class="social-links clearfix">
+                                <li class="share">
+                                    <a href="javascript:void(0);"><span class="icon-gardening-1"></span></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="team-two__single-content d-flex flex-column h-100">
+                            <h2><a href="javascript:void(0);">{{ $pvalue->name }}</a></h2>
+                            <p class="text-black product-pr mb-2">{!! $pvalue->short_description !!}</p>
+
+                            <!-- Spacer to push button down -->
+                            <div class="mt-auto text-center">
+                                <a href="{{ route('web.product_details',['slug'=>$value->slug]) }}"
+                                   style="color: #ffffff; background-color: #2B8010; border-radius: 5px; padding: 8px 15px; text-decoration: none;">
+                                   <b>View More</b>
+                                </a>
                             </div>
                         </div>
-                    @endforeach    
+                    </div>
                 </div>
-            </div>
-        </section>
+            @endforeach    
+        </div>
+    </div>
+</section>
+
     @endif
 @endforeach
 @endif
@@ -161,7 +197,7 @@
             <div class="about-two__bg why_us-bg-1"></div>
             <div class="container p-4">
                 {{-- <div class="row"> --}}
-                    <div style="text-align: justify; padding-left: 4%;"> {!! $fr_product->about !!}</div>
+                    <div style="text-align: justify; padding-left: 4%;"></div>
                 {{-- </div> --}}
             </div>
         </section>

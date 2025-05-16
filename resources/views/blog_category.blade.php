@@ -79,7 +79,7 @@
                                         <p class="card-text blog-content-1 mb-3">
                                             {{ $value->short_description }}
                                         </p>
-                                        <a href="{{ route('web.blog_details', ['slug' => $value->slug]) }}" class="btn btn-outline-primary mt-auto">Read More</a>
+                                        <a href="{{ route('web.blog_details', ['slug' => $value->slug]) }}" class="btn btn-outline-green mt-auto">Read More</a>
                                     </div>
                                 </div>
                             </a>
@@ -100,6 +100,16 @@
                             <button type="submit"><i class="fa fa-search"></i></button>
                         </form>
                     </div>
+                    @if(isset($blog_category) && !@empty($blog_category))
+                        <div class="sidebar__single sidebar__category wow animated fadeInUp" data-wow-delay="0.2s">
+                            <h3 class="title mb-2">{{ translate('Blog Categories') }}</h3>
+                            <ul class="sidebar__category-list">
+                                @foreach ($blog_category as $key => $value)
+                                    <li><a href="{{ route('web.blog_category',['slug'=>$value->slug]) }}">{{ $value->name }}</a></li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     @if(isset($popular_blogs) && !empty($popular_blogs))
                         <div class="sidebar__single sidebar__post wow animated fadeInUp" data-wow-delay="0.3s">
                             <h3 class="title mb-2">{{ translate('Popular Post') }}</h3>

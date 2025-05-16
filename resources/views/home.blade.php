@@ -78,6 +78,23 @@
             </div>
         </div>
     </div>*/ ?>
+
+<!-- Floating Buttons -->
+<div class="position-fixed top-50 end-0 translate-middle-y pe-3" style="z-index: 1050;">
+    <div class="d-flex flex-column align-items-center gap-3">
+        <!-- WhatsApp -->
+        <a href="https://wa.link/nnollq" target="_blank" class="btn btn-success rounded-circle shadow d-flex justify-content-center align-items-center" style="width: 60px; height: 60px;">
+            <i class="fab fa-whatsapp fa-lg"></i>
+        </a>
+        <!-- Call -->
+        <a href="tel:%20+918604486047" class="btn btn-success rounded-circle shadow d-flex justify-content-center align-items-center" style="width: 60px; height: 60px;">
+            <i class="fas fa-phone fa-lg"></i>
+        </a>
+    </div>
+</div>
+
+
+
     <div class="page-wrapper">
         <header class="main-header main-header-one">
             <div class="main-header-one__top">
@@ -92,11 +109,62 @@
                                 <li><a href="#"><span class="icon-instagram"></span></a></li>
                             </ul>
                         </div>
-                        <div class="main-header-one__top-end text-end">
+                         <!-- <div class="main-header-one__top-end text-end">
                             <img class="img-responsive" src="{{ static_asset('images/india.png') }}" alt="{{ app_setting('app_title') }}" width="10%">
                             <span class="text-white m-2">India</span>
-                        </div>
-                    </div>
+                        </div>  -->
+                        <!-- <div class="main-header-one__top-end text-end">
+                            <li class="nav-item dropdown d-inline-block">
+                                <a class="nav-link dropdown-toggle" href="#" id="countryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img class="img-responsive" src="{{ static_asset('images/india.png') }}" alt="{{ app_setting('app_title') }}" width="40">
+                                    <span class="text-white m-2">India</span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-start main-menu__list" aria-labelledby="countryDropdown">
+                                
+                                    <li><a class="dropdown-item" href="?country=AE">UAE</a></li>
+                                    <li><a class="dropdown-item" href="?country=NZ">New Zealand</a></li>
+                                    
+                                </ul>
+                            </li>
+                        </div> -->
+                   
+                        @php
+   $currentCountry = request()->segment(1);
+    $countries = [
+        'india' => ['name' => 'India', 'flag' => 'images/india.png', 'prefix' => null],
+        'uae' => ['name' => 'UAE', 'flag' => 'images/uae.png', 'prefix' => 'uae'],
+        'new-zealand' => ['name' => 'New Zealand', 'flag' => 'images/new-zealand.png', 'prefix' => 'new-zealand']
+    ];
+
+    $normalizedCountry = in_array(strtolower($currentCountry), ['uae', 'new-zealand']) ? strtolower($currentCountry) : 'india';
+
+    @endphp
+
+<div class="main-header-one__top-end text-end">
+    <li class="nav-item dropdown d-inline-block">
+        <a class="nav-link dropdown-toggle" href="#" id="countryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img class="img-responsive" src="{{ static_asset($countries[$normalizedCountry]['flag']) }}" alt="Flag" width="40">
+            <span class="text-white m-2">{{ $countries[$normalizedCountry]['name'] }}</span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-start main-menu__list" aria-labelledby="countryDropdown">
+            @foreach ($countries as $key => $data) 
+                <li>
+                    @if ($data['prefix'])
+                        <a class="dropdown-item" href="{{ route('web.product', ['country' => $data['prefix']]) }}">
+                            {{ $data['name'] }}{{$data['prefix']}}
+                        </a>
+                    @else
+                        <a class="dropdown-item" href="{{ route('web.product') }}">
+                            {{ $data['name'] }}{{$data['prefix']}}
+                        </a>
+                    @endif
+                </li>
+            @endforeach
+        </ul>
+    </li>
+</div>
+
+
                 </div>
             </div>
             <div class="main-header-one__bottom">
@@ -153,11 +221,12 @@
                                                                         <ul>
                                                                             @foreach ($sub_category as $skey => $svalue)
                                                                             <li>
-                                                                                @php $ch_product = DB::table('product')->where('category_id','=',$svalue->id)->where('is_active','=','1')->first(); @endphp
+                                                                                @php $ch_product = DB::table('product')->where('category_id','=',$svalue->id)->where('is_active','=','1')->first(); 
+                                                                                @endphp
                                                                                 @if(isset($ch_product) && !empty($ch_product))
                                                                                     <a href="{{ route('web.product_details',['slug'=>$svalue->slug]) }}">{{ $svalue->name }}</a>
                                                                                 @else
-                                                                                    <a href="javascript:void(0);">{{ $svalue->name }}</a>
+                                                                                    <a href="{{ route('web.product_details',['slug'=>$svalue->slug]) }}">{{ $svalue->name }}</a>
                                                                                 @endif
                                                                             </li>
                                                                             @endforeach
@@ -467,8 +536,8 @@
             </form>
         </div>
     </div>
-    <a href="#" data-target="html" class="scroll-to-target scroll-to-top">
-        <i class="icon-down-arrow"></i>
+    <a href="#" id="scrollToTopBtn" class="btn btn-success position-fixed bottom-0 end-0 m-4 rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; z-index: 1000;display: none;">
+    <i class="fas fa-arrow-up"></i>
     </a>
     <script src="{{ static_asset('assets/home/vendors/jquery/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ static_asset('assets/home/vendors/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -661,6 +730,34 @@
                 }
            });
        });
-   </script>
+   
+  
+// document.getElementById("scrollToTopBtn").addEventListener("click", function(e){
+//     e.preventDefault();
+//     window.scrollTo({ top: 0, behavior: 'smooth' });
+// });
+const btn = document.getElementById("scrollToTopBtn");
+window.onscroll = () => {
+    btn.style.display = window.scrollY > 300 ? "flex" : "none";
+};
+</script>
+
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+<!-- Swiper JS -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var swiperContainers = document.querySelectorAll('.thm-swiper__slider');
+
+        swiperContainers.forEach(function (container) {
+            var options = JSON.parse(container.getAttribute('data-swiper-options'));
+            new Swiper(container, options);
+        });
+    });
+</script>
+
+
 </body>
 </html>

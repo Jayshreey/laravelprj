@@ -45,7 +45,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12 col-sm-6 text-center">
-                <img class="img-responsive product-img" src="{{ uploads_url($product->image) }}" alt="{{ $product->name }}" width="50%">
+                <img class="img-responsive product-img" src="{{ uploads_image($product->image) }}" alt="{{ $product->name }}" width="50%">
                 <div class="card gallery-head-card m-4">
                 @if(isset($product->product_details) && !empty($product->product_details))    <p class="gallery-content-1">{!! $product->product_details !!}</p>  @endif     
                 </div>
@@ -88,6 +88,62 @@ $de_sec = json_decode(isset($product->section) && $product->section!= '' ? $prod
     </div>
 </section>
 @endif
+@if (isset($review) && !empty($review))
+<section class="features-one testimonilas-custom-bg">
+    <div class="features-one__bg" style="background-image: url({{ static_asset('assets/home/images/backgrounds/features-v1-bg.png') }});"></div>
+    
+    <div class="sec-title-three text-center">
+        <h1 class="sec-title-three__title mb-4">Reviews & Ratings</h1>
+        <p style="max-width: 800px; margin: 0 auto; text-align: center;">
+            “Nexsel Tech is pioneering the LED Grow Light revolution, with customers praising their quality, performance, and customer service.”
+        </p>
+    </div>
+
+    <div class="container pt-2">
+        <div class="row">
+            <div class="col-xl-12 p-4 m-4" style="overflow: hidden;">
+                <div class="swiper review-swiper">
+                    <div class="swiper-wrapper">
+                        @foreach ($review as $key => $value)
+                            <div class="features-one__single swiper-slide text-center d-flex align-items-stretch">
+                                <div class="features-one__single-inner rating-review pt-0 pb-0 d-flex flex-column justify-content-between" style="border: 1px solid grey; border-radius: 10px; min-height: 150px;">
+                                    <div class="testimonilas-two__single client-testimonials d-flex flex-column justify-content-between h-100">
+                                        <div class="testimonilas-two__single-bottom p-0 m-0">
+                                            <div class="left-box">
+                                             
+                                                <div class="text-box">
+                                                    <h3 class="text-black text-start"><strong>{{ $value->name }}</strong></h3>
+                                                    <div class="rating-box text-start">
+                                                        <ul>
+                                                            @for ($i = 0; $i <= $value->rating; $i++)
+                                                                <li><span class="icon-pointed-star"></span></li>
+                                                            @endfor
+                                                        </ul>
+                                                    </div>
+                                                   
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="testimonilas-two__single-top">
+                                            <p class="text-black text-start">
+                                                {{ $value->description }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="swiper-button-next text-black"></div>
+                    <div class="swiper-button-prev text-black"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@endif
 <section class="blog-one pt-2">
     <div class="container">
         @php 
@@ -97,7 +153,7 @@ $de_sec = json_decode(isset($product->section) && $product->section!= '' ? $prod
             @if(isset($images) && !empty($images)) 
                 @foreach ($images as $img)
                     <div class="col-12 col-sm-4">
-                        <img class="img-thumbnail" src="{{ uploads_url($img) }}" alt="img" width="100%">
+                        <img class="img-thumbnail" src="{{ uploads_image($img) }}" alt="img" width="100%">
                     </div>
                 @endforeach
             @endif

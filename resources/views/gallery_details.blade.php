@@ -25,6 +25,14 @@
 <meta name="twitter:image" content="{{ uploads_url($gallery->image) }}" />
 <meta name="twitter:label1" content="Time to read" />
 <meta name="twitter:data1" content="Less than a minute" />
+<style>
+    .gallery-image {
+        width: 100%;                 /* Responsive within the column */
+        height: 250px;               /* Set a fixed height */
+        object-fit: cover;           /* Crop to fill the box */
+        border-radius: 20px;
+    }
+</style>
 @endsection
 @section('content')
 @section('style_files')
@@ -65,6 +73,8 @@
         </div>
     </div>
 </section>
+
+
 <section class="blog-one">
     <div class="container">
         <div class="sec-title text-center">
@@ -75,14 +85,14 @@
             </div>
         </div>
         @php 
-            $images = json_decode(isset($gallery->images) && $gallery->images!= '' ? $gallery->images : '')
+            $images = json_decode(isset($gallery->images) && $gallery->images != '' ? $gallery->images : '')
         @endphp
         <div class="row">
             @if(isset($images) && !empty($images)) 
                 @foreach ($images as $img)
-                    <div class="col-12 col-sm-4">
+                    <div class="col-12 col-sm-4 mb-4">
                         <a data-fancybox="image" data-src="{{ uploads_url($img) }}">
-                            <img class="img-responsive" src="{{ uploads_url($img) }}" alt="img" style="border-radius: 20px;">
+                            <img class="gallery-image" src="{{ uploads_url($img) }}" alt="img">
                         </a>
                     </div>
                 @endforeach
@@ -90,6 +100,7 @@
         </div>
     </div>
 </section>
+
 @section('script_files')
 <script type="text/javascript" src="{{ static_asset('assets/home/vendors/fancybox/fancybox.umd.js') }}"></script>
 @endsection

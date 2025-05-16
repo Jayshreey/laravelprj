@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\Faq;
 use App\Http\Controllers\Admin\Review;
 use App\Http\Controllers\Admin\Review_category;
 use App\Http\Controllers\Admin\Pages;
+use App\Http\Controllers\Admin\journey;
 use App\Http\Controllers\Home;
 use App\Http\Controllers\Api\V1;
 
@@ -44,7 +45,7 @@ Route::get('gallery/{slug}',[Home::class,'gallery'])->name('web.gallery');
 Route::get('gallery-details/{slug}',[Home::class,'gallery_details'])->name('web.gallery_details');
 Route::get('about-us',[Home::class,'about_us'])->name('web.about_us');
 Route::get('why-nexsel-grow-lights',[Home::class,'why_us'])->name('web.why_us');
-Route::get('plant-led-grow-lights-product-range',[Home::class,'product'])->name('web.product');
+//Route::get('plant-led-grow-lights-product-range',[Home::class,'product'])->name('web.product');
 Route::get('product/{slug?}',[Home::class,'product_details'])->name('web.product_details');
 Route::get('horticulture-science',[Home::class,'blog'])->name('web.blog');
 Route::get('blog/{slug}',[Home::class,'blog_details'])->name('web.blog_details');
@@ -61,11 +62,10 @@ Route::get('shipping-and-delivery',[Home::class,'shipping_and_delivery'])->name(
 Route::get('refund-policy',[Home::class,'refund_policy'])->name('web.refund-policy');
 Route::get('social',[Home::class,'social'])->name('web.social');
 
-//Route::get('nexsel-spectrum-selection-guide/{slug}', [Home::class, 'spectrum_selection_guide'])->name('web.product_details');
-/*
-Route::get('hydrophonics-grow-lights-model-hygl8.php',[Home::class,'hydrophonics_grow_lights_model_hygl8'])->name('web.product_details');
-Route::get('strawberry-grow-lights.php',[Home::class,'product_details'])->name('web.product_details');
-*/
+Route::get('plant-led-grow-lights-product-range', [Home::class, 'product'])->name('web.product');
+Route::get('uae/plant-led-grow-lights-product-range', [Home::class, 'product'])->name('web.product');
+Route::get('new-zealand/plant-led-grow-lights-product-range', [Home::class, 'product'])->name('web.product');
+
 
 Route::group(['prefix'=>'/admin'],function(){
     Route::get('',[Login::class,'login'])->name('admin.login')->middleware('admin-auth');
@@ -247,5 +247,14 @@ Route::group(['prefix'=>'/admin'],function(){
     Route::post('pages/edit',[Pages::class,'edit_pages'])->name('admin.pages.edit_pages'); 
     Route::get('pages/details/{id}',[Pages::class,'quick_details'])->name('admin.pages.quick_details'); 
     Route::post('pages/update',[Pages::class,'change_status'])->name('admin.pages.change_status');
+
+    Route::get('journey',[Journey::class,'list'])->name('admin.journey')->middleware('admin-auth');
+    Route::post('journey',[Journey::class,'ajax_list'])->name('admin.journey.list');
+    Route::get('journey/new',[Journey::class,'add'])->name('admin.journey.new');
+    Route::post('journey/add',[Journey::class,'new_journey'])->name('admin.journey.add_journey');
+    Route::get('journey/edit/{id}',[Journey::class,'edit'])->name('admin.journey.edit');
+    Route::post('journey/edit',[Journey::class,'edit_journey'])->name('admin.journey.edit_journey'); 
+    Route::get('journey/details/{id}',[Journey::class,'quick_details'])->name('admin.journey.quick_details'); 
+    Route::post('journey/update',[Journey::class,'change_status'])->name('admin.journey.change_status');
     
 });

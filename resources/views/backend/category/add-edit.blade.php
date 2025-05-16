@@ -32,6 +32,23 @@
                         <span id="error_status"></span>
                      </div>
                   </div>
+                  @php
+                     $country_list = ['IN' => translate("India"), 'AE' => translate("UAE"), 'NZ' => translate("New Zealand")];
+                  @endphp
+                  <div class="col-md-4">
+                     <div class="form-group text-left">
+                        <label>{{ translate('Country') }} <span class="tx-danger">*</span></label>
+                        <select name="country" class="form-control select2-modal" data-parsley-errors-container="#error_status" tabindex="2" required>
+                           @if(isset($country_list) && !empty($country_list))
+                              @foreach($country_list as $key => $value)
+                                 @php $selected = isset($category['country']) && $category['country'] == $key ? 'selected' : ''  @endphp
+                                 <option value="{{ $key }}" {{ $selected }}>{{ ucfirst($value) }}</option>
+                              @endforeach
+                           @endif
+                        </select>
+                        <span id="error_status"></span>
+                     </div>
+                  </div>
                   <div class="col-md-12">
                      <div class="form-group text-left">
                         <label>{{ translate('Parent') }} <span class="tx-danger">*</span></label>

@@ -21,6 +21,18 @@
 <meta name="twitter:image" content="{{ static_asset('images/favicon.png') }}" />
 <meta name="twitter:label1" content="Time to read" />
 <meta name="twitter:data1" content="2 minutes" />
+<style>
+    .owl-carousel {
+  display: block !important;
+  visibility: visible !important;
+}
+
+  .orange-border {
+    border: 5px solid orange;
+    
+  }
+
+</style>
 @endsection
 @section('content')
 <section class="page-header">
@@ -311,6 +323,7 @@
         </div>
     </div>
 </section>
+@if (isset($journey) && !empty($journey))
 <section class="features-one">
     <div class="features-one__bg" style="background-image: url({{ static_asset('assets/home/images/backgrounds/features-v1-bg.png') }});">
     </div>
@@ -346,25 +359,23 @@
                                     }
                                 }
                             }'>
+                            @foreach ($journey as $key => $value)
+                            <div class="features-one__single text-center">
+                                <div class="features-one__single-inner">
+                                    <div class="icon-box">
+                                        <span class="icon-shovels"></span>
+                                    </div>
 
-                        <div class="features-one__single text-center">
-                            <div class="features-one__single-inner">
-                                <div class="icon-box">
-                                    <span class="icon-shovels"></span>
-                                </div>
-
-                                <div class="text-box">
-                                    <h2>2015</h2>
-                                    <p><b>April</b><br>
-                                        Founded “Spartan Manufacturers and Sellers LLP” Pune, Maharashtra.
-                                        Service provider of industrial and commercial projects.<br>
-                                        <b>August</b><br>
-                                        Expanded as “Spartan LED” honored to have our first client as “Indian Rail”
-                                    </p>
+                                    <div class="text-box">
+                                        <h2>{{$value->title}}</h2>
+                                        <p>{!! $value->description !!}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="features-one__single text-center">
+                            @endforeach
+                        
+                        <!-- <div class="features-one__single text-center">
                             <div class="features-one__single-inner">
                                 <div class="icon-box">
                                     <span class="icon-agriculture"></span>
@@ -509,13 +520,14 @@
                                     </p>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+@endif
 <section class="services-one about_vm-bg">
     <div class="auto-container about_vm-container">
         <div class="sec-title text-center">
@@ -586,7 +598,7 @@
             @foreach ($team as $key => $value)
                 <div class="col-xl-4 col-lg-4 col-md-4">
                     <div class="services-three__single about_team">
-                        <img src="{{ uploads_url($value->image) }}" alt="{{ $value->name }}">
+                        <img src="{{ uploads_image($value->image) }}" alt="{{ $value->name }}">
                         <div class="services-three__single-content mt-4">
                             <h3 class="text-black mb-2">{{ $value->name }}</h3>
                             <h6>{{ $value->position }}</h6>
@@ -600,15 +612,15 @@
 </section>
 @endif
 @if (isset($certificate) && !empty($certificate))
-<section class="services-one about_vm-bg">
+<section class="services-one about_vm-bg ">
     <div class="auto-container about_vm-container">
         <div class="sec-title text-center">
             <h2 class="sec-title__title text-white">Certificates</h2>
         </div>
         <div class="row">
             @foreach ($certificate as $key => $value)
-                <div class="col-xl-4 col-lg-4 col-md-4">
-                    <img class="img" src="{{ uploads_url($value->image) }}" width="100%">
+                <div class="col-xl-4 col-lg-4 col-md-4 ">
+                    <img class="img orange-border" src="{{ uploads_url($value->image) }}" width="100%">
                 </div>
             @endforeach
         </div>
@@ -627,7 +639,7 @@
                     <div class="swiper-wrapper">
                         @foreach ($client as $key => $value)
                         <div class="features-one__single text-center swiper-slide">
-                            <img src="{{ uploads_url($value->image) }}" alt="{{ $value->name }}">
+                            <img src="{{ uploads_image($value->image) }}" alt="{{ $value->name }}">
                         </div>
                         @endforeach
                     </div>
@@ -640,8 +652,36 @@
     </div>
 </section>
 @endif
+<!-- <section class="services-one about-btm-bg">
+    <div class="auto-container about_vm-container">
+        <div class="sec-title text-center">
+            <h2 class="sec-title__title">our Team</h2>
+        </div>
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card about-btm">
+                    <img class="img" src="{{ static_asset('assets/home/images/about/slide-1.webp') }}" width="100%">
+                </div>
+            </div>
+           
+        </div>
+    </div>
+</section> -->
 <section class="services-one about-btm-bg">
     <div class="auto-container about_vm-container">
+        <div class="container my-5">
+            <div class="sec-title text-center mb-4">
+                <h2 class="sec-title__title">Our Team</h2>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-xl-8 col-lg-10 col-md-12">
+                    <div class="card about-btm border-0 shadow-sm">
+                        <img class="img-fluid rounded orange-border" src="{{ static_asset('assets/home/images/about/DSC07109-1536x864.webp') }}" alt="Our Team">
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="sec-title text-center">
             <h2 class="sec-title__title">Global Presence</h2>
         </div>
@@ -660,3 +700,30 @@
     </div>
 </section>
 @endsection
+<!-- jQuery (important to load before using $) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Owl Carousel JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+  $('.features-one__carousel').owlCarousel({
+    loop: true,
+    autoplay: true,
+    margin: 30,
+    nav: false,
+    dots: false,
+    smartSpeed: 500,
+    autoplayTimeout: 10000,
+    navText: ["<span class=\"fa fa-angle-left\"></span>", "<span class=\"fa fa-angle-right\"></span>"],
+    responsive: {
+      0: { items: 1 },
+      768: { items: 2 },
+      992: { items: 3 },
+      1200: { items: 4 }
+    }
+  });
+});
+
+    </script>

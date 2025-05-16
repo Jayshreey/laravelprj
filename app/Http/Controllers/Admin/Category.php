@@ -136,6 +136,7 @@ class Category extends Controller{
             DB::beginTransaction();
             $up_data = array();
             $up_data['name']        = $request['name'];
+            $up_data['country']        = $request['country'];
             $up_data['slug']        = generateSlug('category',$request['name']);
             $up_data['parent_id']   = $request['parent_id'];
             $up_data['is_active']   = $request['is_active'];
@@ -183,10 +184,13 @@ class Category extends Controller{
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'parent_id' => 'required',
-            'is_active' => 'required'
+            'is_active' => 'required',
+            'country' => 'required',
+
         ]);
         $attrNames = [
             'name' => translate('Name'),
+            'country' => translate('Country'),
             'parent_id' => translate('Parent'),
             'is_active' => translate('Status')
         ];
@@ -206,6 +210,7 @@ class Category extends Controller{
                 $id = decode_string($request['id']);
                 $up_data = array();
                 $up_data['name']        = $request['name'];
+                $up_data['country']        = $request['country'];
                 $up_data['slug']        = generateSlug('category',$request['name']);
                 $up_data['parent_id']   = $request['parent_id'];
                 $up_data['is_active']   = $request['is_active'];

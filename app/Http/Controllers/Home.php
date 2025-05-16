@@ -32,6 +32,8 @@ class Home extends Controller{
         $page_data['team']        = DB::table('team')->where('is_active','=','1')->get();
         $page_data['client']      = DB::table('client')->where('is_active','=','1')->get();
         $page_data['certificate'] = DB::table('certification')->where('is_active','=','1')->get();
+        $page_data['journey']     = DB::table('journey')->where('is_active','=','1')->get();
+        
         return view('about_us',$page_data);
     }
 
@@ -61,6 +63,7 @@ class Home extends Controller{
         $page_data['page_title']    = 'Exploring Horticulture Science: Insights from our Blog';
         $page_data['blogs']         = DB::table('blog')->where('is_active','=','1')->when($keywords, function($query, $keywords) {
                                         $query->where('name','LIKE','%'.$keywords.'%');})->orderBy('updated_at')->simplePaginate(15);
+        
         $page_data['popular_blogs'] = DB::table('blog')->where('is_active','=','1')->orderBy('updated_at')->limit(2)->get();
         $page_data['blog_category'] = DB::table('blog_category')->where('is_active','=','1')->get();
         return view('blog',$page_data);
@@ -68,7 +71,9 @@ class Home extends Controller{
     public function blog_details(Request $request,$slug){
         $page_data =  array();
         $page_data['page_title']    = getColumnValue('blog',['slug'=>$slug],'name');
+
         $page_data['blog']          = DB::table('blog')->where('slug','=',$slug)->where('is_active','=','1')->first();
+        //print_r($page_data['blog']);
         $page_data['popular_blogs'] = DB::table('blog')->where('slug','!=',$slug)->where('is_active','=','1')->orderBy('updated_at')->limit(2)->get();
         $page_data['related_blogs'] = DB::table('blog')->where('slug','!=',$slug)->where('is_active','=','1')->limit(4)->get();
         $page_data['blog_category'] = DB::table('blog_category')->where('is_active','=','1')->get();
@@ -85,6 +90,7 @@ class Home extends Controller{
         $page_data['blogs']             = DB::table('blog')->where('blog_category_id','=',$category_id)->where('is_active','=','1')->orderBy('updated_at')->simplePaginate(15);
         $page_data['popular_blogs']     = DB::table('blog')->where('is_active','=','1')->orderBy('updated_at')->limit(2)->get();
         $page_data['popular_products']  = DB::table('product')->where('is_popular','=','1')->where('is_active','=','1')->orderBy('updated_at')->get();
+        $page_data['blog_category'] = DB::table('blog_category')->where('is_active','=','1')->get();
         return view('blog_category',$page_data);
     }
     public function gallery(Request $request,$slug){
@@ -159,7 +165,13 @@ class Home extends Controller{
         return view('social',$page_data);
     }
 
-    public function product(){
+    public function product($country = null)
+    {
+    // Normalize country code
+    $country = strtolower($country);
+    $validCountries = ['uae', 'nz'];
+    $countryName = in_array($country, $validCountries) ? strtoupper($country) : 'India';
+        
         $page_data  = array();
         $page_data['frm_enquiry']   = true;
         $page_data['page_title']    = translate('Plant Led Grow Lights Product Range');
@@ -171,16 +183,17 @@ class Home extends Controller{
     }
 
     public function product_details(Request $request,$slug){
+      
         $page_data  = array();
         $page_data['frm_enquiry']   = true;
         $category_id = '';
         $page_data['page_title'] = '';
-   
-        if($slug!=''){
+           if($slug!=''){
             $category_id =  getColumnValue('category',['slug'=>$slug],'id');
             $page_data['page_title'] = getColumnValue('category',['slug'=>$slug],'name');
         }
         $page_data['product']  = DB::table('product')->where('category_id','=',$category_id)->where('is_active','=','1')->first();
+        $page_data['review']        = DB::table('review')->where('is_active','=','1')->where('review_category_id','LIKE','%2%')->get();
         $page_data['related_products'] = DB::table('product')->where('category_id','!=',$category_id)->where('is_active','=','1')->orderBy('updated_at')->limit(3)->get();
         return view('product_details',$page_data);
     }

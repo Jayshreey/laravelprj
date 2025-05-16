@@ -22,6 +22,15 @@
 <meta name="twitter:image" content="{{ static_asset('images/favicon.png') }}" />
 <meta name="twitter:label1" content="Time to read" />
 <meta name="twitter:data1" content="Less than a minute" />
+<style>
+    .blog-card-img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover; /* Ensures image covers the area without distortion */
+    border-top-left-radius: 0.5rem; /* Optional: matches card style */
+    border-top-right-radius: 0.5rem;
+}
+</style>
 @endsection
 @section('content')
 <section class="page-header">
@@ -53,7 +62,7 @@
                             <a href="{{ route('web.blog_details',['slug'=>$value->slug]) }}">
                                 <div class="card blog-card-1">
                                     <div class="card-title">
-                                        <img class="img-responsive lazy-image" src="{{ uploads_url($value->image) }}" style="width:100%; max-height: 250px" alt="{{ $value->name }}">
+                                    <img class="img-responsive lazy-image blog-card-img" src="{{ uploads_image($value->image) }}" alt="{{ $value->name }}">
                                     </div>
                                     <div class="card-body m-2">
                                         <h3 class="blog-title-1 mb-2">{{ $value->name }}</h3>
@@ -97,7 +106,7 @@
                                 <div class="sidebar__post-box">
                                     <div class="sidebar__post-single">
                                         <div class="sidebar-post__img">
-                                            <img src="{{ uploads_url($value->image) }}" alt="{{ $value->name }}">
+                                            <img src="{{ uploads_image($value->image) }}" alt="{{ $value->name }}">
                                         </div>
                                         <div class="sidebar__post-content-box">
                                             <h3><a href="{{ route('web.blog_details',['slug'=>$value->slug]) }}">{{ $value->name }}</a></h3>

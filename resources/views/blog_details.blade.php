@@ -32,7 +32,7 @@
 @endsection
 @section('content')
 <section class="page-header">
-    <div class="page-header__bg" style="background-image: url({{ uploads_url($blog->background_banner) }})">
+    <div class="page-header__bg" style="background-image: url({{ uploads_image($blog->background_banner) }})">
     </div>
     <div class="shape1">
         <img src="{{ static_asset('assets/home/images/shapes/page-header-shape1.png') }}" alt="image">
@@ -59,7 +59,7 @@
                     <div class="blog-page__single">
                         <div class="blog-page__single-img">
                             <div class="inner">
-                                <img src="{{ uploads_url($blog->image) }}" alt="{{ $blog->name }}">
+                                <img src="{{ uploads_image($blog->image) }}" alt="{{ $blog->name }}">
                             </div>
                         </div>
                         <div class="blog-page__single-content">

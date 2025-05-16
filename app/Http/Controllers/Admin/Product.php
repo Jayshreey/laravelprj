@@ -89,7 +89,7 @@ class Product extends Controller
                 $status = $list->is_active=='1' ? '<span class="badge bg-success cursor-pointer change-status" data-action="change_status" data-id="'.encode_string($list->id).'" data-url="'.route('admin.product.change_status').'">'.translate('active').'</span>' : '<span class="badge bg-danger cursor-pointer change-status" data-action="change_status" data-id="'.encode_string($list->id).'" data-url="'.route('admin.product.change_status').'">'.translate('Inactive').'</span>';
                 $popular_checked = $list->is_popular=='1' ? 'checked' : '';
                 $popular = '<label class="custom-switch cursor-pointer"><input type="checkbox" class="custom-switch-input change-switch" data-action="change_popular" data-id="'.encode_string($list->id).'" data-url="'.route('admin.product.popular').'" '.$popular_checked.'> <span class="custom-switch-indicator"></span></label>';
-                $image = uploads_url($list->image,uploads_url('default.png'));
+                $image = uploads_image($list->image,uploads_url('default.png'));
                 $nestedData = array();
                 $nestedData['id']           = $list->id;
                 $nestedData['image']        = '<a data-fancybox="image" data-src="'.$image.'" data-caption="'.$list->name.'"><img alt="'.$list->name.'" class="radius cursor-pointer image-delay" src="'.uploads_url('loader.gif').'" data-src="'.$image.'" style="width:48px;height:48px;"></a>';      

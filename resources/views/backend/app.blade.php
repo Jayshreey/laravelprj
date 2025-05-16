@@ -208,6 +208,7 @@
 							$menu['admin.review_category'] = ['name' => 'Review Category', 'icon' => 'fa fa-list-ul'];
 							$menu['admin.review'] = ['name' => 'Review', 'icon' => 'fa fa-comments'];
 							$menu['admin.pages'] = ['name' => 'Pages', 'icon' => 'fa fa-comments'];
+							$menu['admin.journey'] = ['name' => 'journey', 'icon' => 'fa fa-cube'];
 							
 							@endphp 
 						

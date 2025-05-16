@@ -396,7 +396,7 @@
                     <div class="swiper-wrapper">
                         @foreach ($client as $key => $value)
                         <div class="features-one__single text-center swiper-slide">
-                            <img src="{{ uploads_url($value->image) }}" alt="{{ $value->name }}">
+                            <img src="{{ $value->image }}" alt="{{ $value->name }}">
                         </div>
                         @endforeach
                     </div>
@@ -573,5 +573,6 @@
 @endif
 @section('script_files')
 <script type="text/javascript" src="{{ static_asset('assets/home/vendors/fancybox/fancybox.umd.js') }}"></script>
+
 @endsection
 @endsection

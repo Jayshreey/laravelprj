@@ -498,7 +498,8 @@ if (! function_exists ("null_handling")) {
 if (!function_exists('uploads_url')){
     function uploads_url($uri = ''){
         $uri = $uri!='' ? $uri : 'default.png';
-        return getBaseURL().'uploads/'.$uri;
+        //return getBaseURL().'uploads/'.$uri;
+        return $uri;
     }
 }
 

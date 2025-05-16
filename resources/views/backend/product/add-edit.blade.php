@@ -11,6 +11,7 @@
 <script type="text/javascript" src="{{ static_asset('assets/backend/plugins/filepond/filepond-plugin-file-validate-size.js') }}"></script>
 <script type="text/javascript" src="{{ static_asset('assets/backend/plugins/filepond/filepond-plugin-file-validate-type.js') }}"></script>
 <script type="text/javascript" src="{{ static_asset('assets/backend/plugins/filepond/filepond.min.js') }}"></script>
+
 @endsection
 @section('page_title'){{ translate('Basic Settings') }}@endsection
 @section('content')
@@ -72,11 +73,12 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-12 col-sm-6">
+                                    <div class="col-12 col-sm-12">
                                         <div class="form-group">
                                         <label>{{ translate('Short Description') }} <span class="text-danger">*</span></label>
-                                        <textarea class="form-control" name="short_description" placeholder="{{ translate('Short Description') }}" tabindex="4" required>{{ isset($product['short_description']) && $product['short_description'] != '' ? $product['short_description'] : '' }}</textarea>
-                                        </div>
+                                        <!-- <textarea class="form-control" name="short_description" placeholder="{{ translate('Short Description') }}" tabindex="4" required>{{ isset($product['short_description']) && $product['short_description'] != '' ? $product['short_description'] : '' }}</textarea> -->
+                                        @php echo app_html_editor("short_description","short_description",translate('short_description'),isset($product['short_description']) && $product['short_description'] != '' ? $product['short_description'] : '', ['style' => 'height: 200px;'] ) @endphp    
+                                    </div>
                                     </div>
                                     <div class="col-12 col-sm-6">
                                         <div class="form-group">
@@ -153,7 +155,7 @@
                         <div class="row">
                             <div class="col-12 col-sm-12">
                                 <div class="form-group">
-                                    <label>{{ translate('Product Details') }}</label>
+                                    <label>Product Details</label>
                                     @php echo app_html_editor("product_details","product_details",translate('product_details'),isset($product['product_details']) && $product['product_details'] != '' ? $product['product_details'] : '',false) @endphp
                                 </div>
                             </div>
